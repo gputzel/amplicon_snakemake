@@ -1,3 +1,7 @@
 {
-    "phyloseq_rds_file":"../amplicon_analysis-MC-AF-22-All_Samples/phyloseq_R_object.rds"
+    "phyloseq_rds_file":"/Users/greg/Documents/Microbial/Artis_Lab/AnneLaure_Flamar/Tph1_16S/RData/ps_with_sample_data.rds",
+    "relative_abundance_plots":{
+        "taxranks":["Genus","Family"],
+        "x_axis_var":"Genotype"
+    }
 }
