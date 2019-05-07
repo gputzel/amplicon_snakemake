@@ -32,3 +32,11 @@ rule relative_abundance:
         "output/RelativeAbundance.html"
     script:
         "RNotebooks/RelativeAbundance.Rmd"
+
+rule lefse_input:
+    input:
+        rds="output/RData/phyloseq_sample_data.rds"
+    output:
+        txt="output/lefse/lefse_input.txt"
+    script:
+        "scripts/lefse_input.R"
