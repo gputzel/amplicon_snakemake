@@ -1,7 +1,12 @@
 {
-    "phyloseq_rds_file":"/Users/greg/Documents/Microbial/Artis_Lab/AnneLaure_Flamar/Tph1_16S/RData/ps_with_sample_data.rds",
+    "phyloseq_rds_file":"/output/RData/phyloseq_sample_data.rds",
     "relative_abundance_plots":{
         "taxranks":["Genus","Family","Order","Class","Phylum"],
         "x_axis_var":"Genotype"
+    },
+    "import_sample_data":{
+        "mapping_file":"../amplicon_analysis/mapping_file.txt",
+        "phyloseq_rds_file":"../amplicon_analysis/phyloseq_R_object.rds",
+        "columns":{"Genotype":["HET","KI"]}
     }
 }

@@ -1,6 +1,15 @@
 configfile: "config.json"
 import jinja2
 
+rule import_sample_data:
+    input:
+        mapping=config["import_sample_data"]["mapping_file"],
+        rds=config["import_sample_data"]["phyloseq_rds_file"]
+    output:
+        rds="output/RData/phyloseq_sample_data.rds"
+    script:
+        "scripts/import_sample_data.R"
+
 rule relative_abundance_Rmd:
     input:
         "templates/RelativeAbundance.Rmd.temp"
