@@ -40,3 +40,14 @@ rule lefse_input:
         txt="output/lefse/lefse_input.txt"
     script:
         "scripts/lefse_input.R"
+
+rule lefse:
+    input:
+        "output/lefse/lefse_input.txt"
+    output:
+        "output/lefse/do_lefse.sh",
+        "output/lefse/cladogram.pdf",
+        "output/lefse/lefse_results.png",
+        "output/lefse/lefse_results.res"
+    shell:
+        "cp scripts/do_lefse.sh output/lefse/do_lefse.sh; cd output/lefse; ./do_lefse.sh"

@@ -1,5 +1,5 @@
 {
-    "phyloseq_rds_file":"/output/RData/phyloseq_sample_data.rds",
+    "phyloseq_rds_file":"/Users/greg/Documents/Microbial/Lipkin_Lab/Plcg2_KI_16S/amplicon_snakemake/output/RData/phyloseq_sample_data.rds",
     "relative_abundance_plots":{
         "taxranks":["Genus","Family","Order","Class","Phylum"],
         "x_axis_var":"Genotype"
@@ -8,5 +8,8 @@
         "mapping_file":"../amplicon_analysis/mapping_file.txt",
         "phyloseq_rds_file":"../amplicon_analysis/phyloseq_R_object.rds",
         "columns":{"Genotype":["HET","KI"]}
+    },
+    "lefse":{
+        "sample_attributes":["Genotype"]
     }
 }
