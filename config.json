@@ -11,5 +11,9 @@
     },
     "lefse":{
         "sample_attributes":["Genotype"]
+    },
+    "pcoa":{
+        "color_attribute":"Genotype",
+        "permanova_attribute":"Genotype"
     }
 }

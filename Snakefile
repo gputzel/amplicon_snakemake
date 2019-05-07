@@ -51,3 +51,12 @@ rule lefse:
         "output/lefse/lefse_results.res"
     shell:
         "cp scripts/do_lefse.sh output/lefse/do_lefse.sh; cd output/lefse; ./do_lefse.sh"
+
+rule pcoa:
+    input:
+        rmd="RNotebooks/PCoA.Rmd",
+        rds="output/RData/phyloseq_sample_data.rds"
+    output:
+        "output/PCoA.html"
+    script:
+        "RNotebooks/PCoA.Rmd"
