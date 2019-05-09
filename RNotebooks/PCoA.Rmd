@@ -10,6 +10,7 @@ output:
 library(phyloseq)
 library(tidyverse)
 library(vegan)
+library(plotly)
 ```
 
 ```{r include=FALSE}
@@ -33,12 +34,14 @@ plot.pcoa <- function(ps.obj,distance.measure='bray'){
     ord <- ordinate(ps.obj,method='PCoA',distance=distance.measure)
     var.strings <- paste0('Axis ',c('1','2'),' (',round(100*ord$values$Relative_eig[1:2],digits=1),'%)')
     data.frame(
+        Sample=sample_names(ps),
         sample_data(ps),
         ord$vectors
     ) %>%
-        ggplot(aes_string('Axis.1','Axis.2',color=snakemake@config$pcoa$color_attribute)) + geom_point(size=3) +
+        ggplot(aes_string('Axis.1','Axis.2',color=snakemake@config$pcoa$color_attribute,Sample="Sample")) + geom_point(size=3) +
         xlab(var.strings[1]) + ylab(var.strings[2]) +
-        theme(axis.text = element_text(size=12),axis.title=element_text(size=12))
+        theme(axis.text = element_text(size=12),axis.title=element_text(size=12)) -> g
+    ggplotly(g)
 }
 #codetools::findGlobals(plot.pcoa)
 ```

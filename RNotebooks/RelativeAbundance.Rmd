@@ -1,0 +1,94 @@
+---
+title: "Relative abundance plots"
+output:
+    html_document:
+        toc: false
+        toc_float: true
+---
+
+```{r include=FALSE}
+library(phyloseq)
+library(tidyverse)
+library(plotly)
+library(crosstalk)
+
+ps <- readRDS(snakemake@input[['phyloseq_rds']])
+ps.rel <- transform_sample_counts(ps,function(x)x/sum(x))
+
+make.ps.tax <- function(taxrank){
+    tax_glom(ps.rel,taxrank) %>%
+        psmelt -> df.long
+    df.long[,taxrank] <- gsub("^__","",df.long[,taxrank])
+    df.long
+}
+```
+
+```{r include=FALSE}
+rel.abund.plot <- function(taxrank){
+    shared.data <- SharedData$new(make.ps.tax(taxrank))
+    bscols(
+        list(
+            filter_select(id=taxrank,
+                          label=paste('Select',taxrank),
+                          sharedData=shared.data,#,[[taxrank]],
+                          allLevels=FALSE,
+                          as.formula(paste0('~',taxrank)),
+                          multiple=FALSE
+                         ),
+            (
+                shared.data %>%
+                    ggplot(
+                        aes(Genotype,Abundance,Sample=Sample)
+                    ) + geom_jitter(height=0,width=0.1,size=3,stroke=0.2) +
+                    ylab("Relative abundance") +
+                    theme(axis.text=element_text(size=12),axis.title.x=element_text(size=12),axis.title.y=element_blank()) +
+                    ggtitle("Relative abundance")
+            ) %>% ggplotly(dynamicTicks=TRUE) %>% layout(margin=list(l=100))
+        )
+    )
+}
+```
+
+
+# Taxonomic rank {.tabset}
+
+
+## Genus
+
+### All samples
+
+```{r echo=FALSE}
+rel.abund.plot('Genus')
+```
+
+## Family
+
+### All samples
+
+```{r echo=FALSE}
+rel.abund.plot('Family')
+```
+
+## Order
+
+### All samples
+
+```{r echo=FALSE}
+rel.abund.plot('Order')
+```
+
+## Class
+
+### All samples
+
+```{r echo=FALSE}
+rel.abund.plot('Class')
+```
+
+## Phylum
+
+### All samples
+
+```{r echo=FALSE}
+rel.abund.plot('Phylum')
+```
