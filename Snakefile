@@ -1,12 +1,19 @@
 configfile: "config.json"
 import jinja2
 
+
+def import_sample_data_input(wildcards):
+    d={}
+    if "xlsx" in config["import_sample_data"].keys():
+        d["xlsx"]=config["import_sample_data"]["xlsx"]
+    d["rds"]=config["phyloseq_rds_file"]
+    return d
+
 rule import_sample_data:
     input:
-        mapping=config["import_sample_data"]["mapping_file"],
-        rds=config["import_sample_data"]["phyloseq_rds_file"]
+        unpack(import_sample_data_input)
     output:
-        rds="output/RData/phyloseq_sample_data.rds"
+        rds="output/RData/phyloseq_with_sample_data.rds"
     script:
         "scripts/import_sample_data.R"
 
