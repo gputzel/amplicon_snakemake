@@ -1,6 +1,5 @@
 library(phyloseq)
 library(tidyverse)
-library(vegan)
 
 ps.rar <- readRDS(snakemake@input[['ps']])
 distances <- readRDS(snakemake@input[['distances']])
