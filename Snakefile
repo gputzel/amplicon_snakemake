@@ -17,6 +17,15 @@ rule import_sample_data:
     script:
         "scripts/import_sample_data.R"
 
+rule sample_info:
+    input:
+        rds="output/RData/phyloseq_with_sample_data.rds",
+        Rmd="scripts/SampleInfo.Rmd"
+    output:
+        html="output/SampleInfo.html"
+    script:
+        "scripts/SampleInfo.Rmd"
+
 rule relative_abundance_Rmd:
     input:
         "templates/RelativeAbundance.Rmd.temp"

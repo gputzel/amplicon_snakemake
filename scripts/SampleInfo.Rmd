@@ -1,0 +1,69 @@
+---
+title: "Overview"
+output: 
+  flexdashboard::flex_dashboard
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(phyloseq)
+library(plotly)
+library(DT)
+library(pander)
+```
+
+```{r include=FALSE}
+ps <- readRDS(snakemake@input[['rds']])
+sample.df <- data.frame(sample_data(ps))
+```
+
+
+Samples
+=====================================
+
+```{r echo=FALSE,results='asis'}
+sample.df %>%
+  rownames_to_column("Sample") %>%
+  pander::pandoc.table(.)
+#  DT::datatable(extensions=c('Scroller'),options=list(dom = "Bfrtip",scrollX=TRUE,scrollY=200,pageLength=nrow(.)))
+```
+
+
+Read counts
+=====================================
+
+```{r echo=FALSE}
+df <- data.frame(
+  sample.df,
+  total.reads=sample_sums(ps)
+) %>%
+  rownames_to_column('Sample') %>%
+  arrange(total.reads)
+
+df$Sample <- factor(df$Sample,levels=df$Sample)
+
+columns <- as.list(setNames(colnames(sample.df),colnames(sample.df)))
+
+args.1 <- list("x"="Sample","y"="total.reads")
+
+args <- c(args.1,columns)
+
+g <- df %>% 
+  ggplot(
+  do.call(aes_string,args)
+) + geom_point() +
+  scale_y_continuous(limits=c(0,1.05*max(df$total.reads))) +
+  theme(axis.text.x=element_text(size=10,angle=90)) +
+  ylab("Total reads per sample")
+
+ggplotly(g)
+```
+
+
+R session info
+=====================================
+
+```{r echo=FALSE,results='asis'}
+pander(sessionInfo())
+```
+

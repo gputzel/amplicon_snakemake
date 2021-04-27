@@ -10,7 +10,7 @@
                 "Before":"[.]16S[.]03022021",
                 "After":""
             },
-            "replace_dot_with_dash":{
+            "Replace dot with dash":{
                 "Before":"[.]",
                 "After":"-"
             }
