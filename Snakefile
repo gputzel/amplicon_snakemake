@@ -63,3 +63,11 @@ rule pcoa_ggplot2_object:
         rds="output/RData/PCoA/{plan}/{measure}.rds"
     script:
         "scripts/PCoA.R"
+
+rule PERMANOVA:
+    input:
+        unpack(pcoa_ggplot2_object_input) #Uses exactly the same inputs
+    output:
+        rds="output/RData/PERMANOVA/{plan}/{measure}.rds" 
+    script:
+        "scripts/PERMANOVA.R"
