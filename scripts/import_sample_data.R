@@ -28,6 +28,10 @@ for(t in config$transform_ps_sample_names){
     sample_names(ps) <- gsub(t$Before,t$After,sample_names(ps))
 }
 
+for(t in config$transform_mapping_file_sample_names){
+    rownames(sample.df) <- gsub(t$Before,t$After,rownames(sample.df))
+}
+
 cat("sample_names(ps) - rownames(sample.df):\n")
 
 setdiff(sample_names(ps),rownames(sample.df))
