@@ -18,8 +18,18 @@
         "transform_mapping_file_sample_names":{
         }
     },
-    "sample_subsets":{
-        "all":"TRUE"
-    },
-    "phyloseq_rds_file":"RData/phyloseq_R_object.rds"
+   "phyloseq_rds_file":"RData/phyloseq_R_object.rds",
+   "sample_subsets":{
+    "all":"TRUE",
+    "Cohort2_Rorc":"Cohort == 'Cohort1' & Genotype %in% c('Rorc-wt','Rorc-KO')"
+   },
+   "pcoa_plots":{
+       "all_samples":{
+           "sample_subset":"all",
+           "color_variable":"Genotype",
+           "shape_variable":"Cohort",
+           "hover_variables":["Sex"],
+           "PERMANOVA":"~Genotype"
+       }
+   }
 }

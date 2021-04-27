@@ -23,3 +23,11 @@ rule sample_info:
         html="output/SampleInfo.html"
     script:
         "scripts/SampleInfo.Rmd"
+
+rule subset_phylosseq:
+    input:
+        rds="output/RData/phyloseq_with_sample_data.rds"
+    output:
+        rds="output/RData/ps_subsets/{subset}.rds"
+    script:
+        "scripts/subset_samples.R"
