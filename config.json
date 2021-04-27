@@ -21,15 +21,28 @@
    "phyloseq_rds_file":"RData/phyloseq_R_object.rds",
    "sample_subsets":{
     "all":"TRUE",
-    "Cohort2_Rorc":"Cohort == 'Cohort1' & Genotype %in% c('Rorc-wt','Rorc-KO')"
+    "Cohort1_Rorc":"Cohort == 'Cohort1' & Genotype %in% c('Rorc-wt','Rorc-KO')"
    },
+   "min_reads":10000,
    "pcoa_plots":{
        "all_samples":{
            "sample_subset":"all",
            "color_variable":"Genotype",
            "shape_variable":"Cohort",
            "hover_variables":["Sex"],
-           "PERMANOVA":"~Genotype"
-       }
+           "PERMANOVA":"~Genotype",
+           "PDF_height":4.5,
+           "PDF_width":6
+        },
+       "Cohort1_Rorc":{
+           "sample_subset":"Cohort1_Rorc",
+           "color_variable":"Genotype",
+           "shape_variable":"Cohort",
+           "hover_variables":["Sex"],
+           "PERMANOVA":"~Genotype",
+           "PDF_height":4.5,
+           "PDF_width":6
+        }
+
    }
 }

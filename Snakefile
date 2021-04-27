@@ -24,10 +24,43 @@ rule sample_info:
     script:
         "scripts/SampleInfo.Rmd"
 
-rule subset_phylosseq:
+rule subset_phyloseq:
     input:
         rds="output/RData/phyloseq_with_sample_data.rds"
     output:
         rds="output/RData/ps_subsets/{subset}.rds"
     script:
         "scripts/subset_samples.R"
+
+rule rarefy:
+    input:
+        rds="output/RData/ps_subsets/{subset}.rds"
+    output:
+        rds="output/RData/ps_subsets_rarefied/{subset}.rds"
+    script:
+        "scripts/rarefy.R"
+
+rule get_distances:
+    input:
+        rds="output/RData/ps_subsets_rarefied/{subset}.rds"
+    output:
+        rds="output/RData/distances/{subset}.rds"
+    script:
+        "scripts/get_distances.R"
+
+def pcoa_ggplot2_object_input(wildcards):
+    pcoa_plan = wildcards['plan']
+    subset = config['pcoa_plots'][pcoa_plan]['sample_subset']
+    d={}
+    d['ps'] = "output/RData/ps_subsets_rarefied/" + subset + ".rds"
+    d['distances'] = "output/RData/distances/" + subset + ".rds"
+    return d
+            
+
+rule pcoa_ggplot2_object:
+    input:
+        unpack(pcoa_ggplot2_object_input)
+    output:
+        rds="output/RData/PCoA/{plan}/{measure}.rds"
+    script:
+        "scripts/PCoA.R"
