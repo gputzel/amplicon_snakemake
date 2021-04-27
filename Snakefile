@@ -64,6 +64,21 @@ rule pcoa_ggplot2_object:
     script:
         "scripts/PCoA.R"
 
+distance_measures={'BrayCurtis':'bray','BinaryJaccard':'jaccard','UniFrac':'unifrac','WeightedUniFrac':'wunifrac'}
+
+def pcoa_PDF_input(wildcards):
+    d={}
+    d['rds']='output/RData/PCoA/' + wildcards['plan'] + "/" + distance_measures[wildcards['measure']] + ".rds" 
+    return(d)
+
+rule pcoa_PDF:
+    input:
+        unpack(pcoa_PDF_input)
+    output:
+        pdf="figures/PCoA/{plan}/{measure}.pdf"
+    script:
+        "scripts/PCoA_plot.R"
+
 rule PERMANOVA:
     input:
         unpack(pcoa_ggplot2_object_input) #Uses exactly the same inputs
