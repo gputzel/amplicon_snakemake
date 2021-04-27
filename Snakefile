@@ -20,7 +20,7 @@ rule sample_info:
         rds="output/RData/phyloseq_with_sample_data.rds",
         Rmd="scripts/SampleInfo.Rmd"
     output:
-        html="output/SampleInfo.html"
+        html="output/HTML/SampleInfo.html"
     script:
         "scripts/SampleInfo.Rmd"
 
@@ -55,7 +55,6 @@ def pcoa_ggplot2_object_input(wildcards):
     d['ps'] = "output/RData/ps_subsets_rarefied/" + subset + ".rds"
     d['distances'] = "output/RData/distances/" + subset + ".rds"
     return d
-            
 
 rule pcoa_ggplot2_object:
     input:
