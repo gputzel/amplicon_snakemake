@@ -17,3 +17,5 @@ Workflow version (git repository checksum):
 
 `r system("git rev-parse HEAD", intern = TRUE)`
 
+The workflow was run using Snakemake version `r system("snakemake --version",intern=TRUE)`.
+
