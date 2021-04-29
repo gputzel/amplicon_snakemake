@@ -175,3 +175,6 @@ rule list_plans:
         print("PCoA plots:")
         for plan in config['pcoa_plots'].keys():
             print("\t" + plan)
+        print("Taxonomy barplots:")
+        for plan in config['taxonomy_barplots'].keys():
+            print("\t" + plan)
