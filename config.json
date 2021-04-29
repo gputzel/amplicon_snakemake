@@ -30,7 +30,7 @@
            "color_variable":"Genotype",
            "shape_variable":"Cohort",
            "hover_variables":["Sex"],
-           "PERMANOVA":"~Genotype+Cohort",
+           "PERMANOVA":"~Cohort+Genotype",
            "PERMANOVA_permutations":100000,
            "PDF_height":4.5,
            "PDF_width":6

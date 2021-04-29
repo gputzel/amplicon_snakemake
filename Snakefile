@@ -75,7 +75,7 @@ rule pcoa_PDF:
     input:
         unpack(pcoa_PDF_input)
     output:
-        pdf="figures/PCoA/{plan}/{measure}.pdf"
+        pdf="output/figures/PCoA/{plan}/{measure}.pdf"
     script:
         "scripts/PCoA_plot.R"
 
@@ -86,3 +86,24 @@ rule PERMANOVA:
         rds="output/RData/PERMANOVA/{plan}/{measure}.rds" 
     script:
         "scripts/PERMANOVA.R"
+
+def PCoA_report_input(wildcards):
+    d={}
+    plan=wildcards['plan'] 
+    subset=config['pcoa_plots'][plan]['sample_subset']
+    d['ps']="output/RData/ps_subsets_rarefied/" + subset + ".rds"
+    for measure in ['bray','jaccard','unifrac','wunifrac']:
+        d['pcoa_' + measure] = 'output/RData/PCoA/' + plan + '/' + measure + '.rds'
+        d['PERMANOVA_' + measure] = 'output/RData/PERMANOVA/' + plan + '/' + measure + '.rds'
+    for measure_name in distance_measures.keys():
+        d['pcoa_' + measure_name + '_PDF'] = 'output/figures/PCoA/' + plan + '/' + measure_name + '.pdf'
+    d['Rmd']='scripts/PCoA.Rmd'
+    return d
+
+rule PCoA_report:
+    input:
+        unpack(PCoA_report_input)
+    output:
+        "output/HTML/PCoA/{plan}.html"
+    script:
+        "scripts/PCoA.Rmd"
