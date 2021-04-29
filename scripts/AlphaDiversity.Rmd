@@ -1,0 +1,54 @@
+---
+title: "Alpha Diversity"
+output: 
+  flexdashboard::flex_dashboard
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(plotly)
+library(pander)
+```
+
+```{r include=FALSE}
+plan_name <- snakemake@wildcards[['plan']]
+plan <- snakemake@config$alpha_diversity[[plan_name]]
+x_variable <- plan$x_variable
+```
+
+```{r include=FALSE}
+df <- readRDS(snakemake@input[['df']])
+g <- readRDS(snakemake@input[['ggplot']])
+```
+
+Alpha diversity
+=====================================
+
+#### Plot
+
+```{r echo=FALSE}
+ggplotly(g)
+```
+
+#### PDF
+
+```{r echo=FALSE,results='asis'}
+cat(paste0("\n\nFigure saved as `figures/AlphaDiversity/",plan_name,".pdf`"))
+```
+
+#### Student t test
+
+```{r echo=FALSE}
+formula <- as.formula(paste0('Shannon~',x_variable))
+t.test(formula=formula,data=df)
+```
+
+
+<!--Include software version info-->
+
+```{r include=FALSE}
+absolute.path <- file.path(getwd(),'scripts','SoftwareInfo.Rmd')
+```
+
+```{r child=absolute.path}
+```

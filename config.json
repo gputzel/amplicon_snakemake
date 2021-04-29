@@ -86,7 +86,36 @@
            "n_labelled_taxa":8,
            "PDF_height":4.5,
            "PDF_width":7
+       },
+       "Cohort2_Rorc":{
+           "sample_subset":"Cohort2_Rorc",
+           "facet_variable":"Genotype",
+           "n_labelled_taxa":8,
+           "PDF_height":4.5,
+           "PDF_width":7
+       },
+       "Cohort1_Zbtb46":{
+           "sample_subset":"Cohort1_Zbtb46",
+           "facet_variable":"Genotype",
+           "n_labelled_taxa":8,
+           "PDF_height":4.5,
+           "PDF_width":7
 
+       },
+       "Cohort2_Zbtb46":{
+           "sample_subset":"Cohort2_Zbtb46",
+           "facet_variable":"Genotype",
+           "n_labelled_taxa":8,
+           "PDF_height":4.5,
+           "PDF_width":7
+       }
+   },
+   "alpha_diversity":{
+       "Cohort1_Rorc":{
+           "sample_subset":"Cohort1_Rorc",
+           "x_variable":"Genotype",
+           "PDF_height":4.5,
+           "PDF_width":6
        }
    }
 }

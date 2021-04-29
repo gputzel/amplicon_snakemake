@@ -170,6 +170,47 @@ rule taxonomy_barplots_HTML:
     script:
         "scripts/TaxonomyBarplots.Rmd"
 
+def alpha_diversity_input(wildcards):
+    d={}
+    plan = wildcards['plan']
+    subset = config['alpha_diversity'][plan]['sample_subset']
+    d['rds']="output/RData/ps_subsets_rarefied/" + subset + ".rds"
+    return d
+
+rule alpha_diversity:
+    input:
+        unpack(alpha_diversity_input)
+    output:
+        rds="output/RData/AlphaDiversity/{plan}.rds"
+    script:
+        "scripts/AlphaDiversity.R"        
+
+rule alpha_diversity_ggplot2_object:
+    input:
+        rds="output/RData/AlphaDiversity/{plan}.rds"
+    output:
+        rds="output/RData/AlphaDiversityPlot/{plan}.rds"
+    script:
+        "scripts/AlphaDiversityPlotObject.R"
+
+rule alpha_diversity_plot:
+    input:
+        rds="output/RData/AlphaDiversityPlot/{plan}.rds"
+    output:
+        pdf="output/figures/AlphaDiversity/{plan}.pdf"
+    script:
+        "scripts/AlphaDiversityPlot.R"
+
+rule alpha_diversity_HTML:
+    input:
+        Rmd="scripts/AlphaDiversity.Rmd",
+        ggplot="output/RData/AlphaDiversityPlot/{plan}.rds",
+        df="output/RData/AlphaDiversity/{plan}.rds"
+    output:
+        "output/HTML/AlphaDiversity/{plan}.html"
+    script:
+        "scripts/AlphaDiversity.Rmd"
+
 rule list_plans:
     run:
         print("PCoA plots:")
