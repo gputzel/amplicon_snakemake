@@ -40,6 +40,15 @@ rule rarefy:
     script:
         "scripts/rarefy.R"
 
+rule normalize:
+    input:
+        rds="output/RData/ps_subsets/{subset}.rds"
+    output:
+        rds="output/RData/ps_subsets_normalized/{subset}.rds"
+    script:
+        "scripts/normalize.R"
+
+
 rule get_distances:
     input:
         rds="output/RData/ps_subsets_rarefied/{subset}.rds"
@@ -100,10 +109,69 @@ def PCoA_report_input(wildcards):
     d['Rmd']='scripts/PCoA.Rmd'
     return d
 
-rule PCoA_report:
+rule pcoa_report:
     input:
         unpack(PCoA_report_input)
     output:
         "output/HTML/PCoA/{plan}.html"
     script:
         "scripts/PCoA.Rmd"
+
+rule all_pcoa_reports:
+    input:
+        ["output/HTML/PCoA/" + plan + ".html" for plan in config['pcoa_plots'].keys()]
+
+rule long_form_data:
+    input:
+        rds="output/RData/ps_subsets_normalized/{subset}.rds"
+    output:
+        rds="output/RData/long_form_data/{subset}.rds"
+    script:
+        "scripts/long_form_data.R"
+
+def taxonomy_barplot_input(wildcards):
+    plan_name=wildcards['plan']
+    plan=config['taxonomy_barplots'][plan_name]
+    subset=plan['sample_subset']
+    d={}
+    d['rds']="output/RData/long_form_data/" + subset + ".rds"
+    return d
+
+rule taxonomy_barplot:
+    input:
+        unpack(taxonomy_barplot_input)
+    output:
+        rds="output/RData/TaxonomyBarplots/{plan}/{rank}.rds"
+    script:
+        "scripts/TaxonomyBarplot.R"
+
+rule taxonomy_barplot_PDF:
+    input:
+        rds="output/RData/TaxonomyBarplots/{plan}/{rank}.rds"
+    output:
+        pdf="output/figures/TaxonomyBarplots/{plan}/{rank}.pdf"
+    script:
+        "scripts/TaxonomyBarplotPDF.R"
+
+def taxonomy_barplots_HTML_input(wildcards):
+    plan = wildcards['plan']
+    d={}
+    d['Rmd']="scripts/TaxonomyBarplots.Rmd"
+    for rank in ['Genus','Family','Order','Class','Phylum']:
+        d[rank] = "output/RData/TaxonomyBarplots/" + plan + "/" + rank + ".rds"
+        d[rank + '_PDF'] = "output/figures/TaxonomyBarplots/" + plan + "/" + rank + ".pdf"
+    return d
+
+rule taxonomy_barplots_HTML:
+    input:
+        unpack(taxonomy_barplots_HTML_input)
+    output:
+        "output/HTML/TaxonomyBarplots/{plan}.html"
+    script:
+        "scripts/TaxonomyBarplots.Rmd"
+
+rule list_plans:
+    run:
+        print("PCoA plots:")
+        for plan in config['pcoa_plots'].keys():
+            print("\t" + plan)

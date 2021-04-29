@@ -21,7 +21,10 @@
    "phyloseq_rds_file":"RData/phyloseq_R_object.rds",
    "sample_subsets":{
     "all":"TRUE",
-    "Cohort1_Rorc":"Cohort == 'Cohort1' & Genotype %in% c('Rorc-wt','Rorc-KO')"
+    "Cohort1_Rorc":"Cohort == 'Cohort1' & Genotype %in% c('Rorc-wt','Rorc-KO')",
+    "Cohort2_Rorc":"Cohort == 'Cohort2' & Genotype %in% c('Rorc-wt','Rorc-KO')",
+    "Cohort1_Zbtb46":"Cohort == 'Cohort1' & Genotype %in% c('Zbtb46-wt','Zbtb46-KO')",
+    "Cohort2_Zbtb46":"Cohort == 'Cohort2' & Genotype %in% c('Zbtb46-wt','Zbtb46-KO')"
    },
    "min_reads":10000,
    "pcoa_plots":{
@@ -44,7 +47,46 @@
            "PERMANOVA_permutations":100000,
            "PDF_height":4.5,
            "PDF_width":6
+        },
+       "Cohort2_Rorc":{
+           "sample_subset":"Cohort2_Rorc",
+           "color_variable":"Genotype",
+           "shape_variable":"Cohort",
+           "hover_variables":["Sex"],
+           "PERMANOVA":"~Genotype",
+           "PERMANOVA_permutations":100000,
+           "PDF_height":4.5,
+           "PDF_width":6
+        },
+       "Cohort1_Zbtb46":{
+           "sample_subset":"Cohort1_Zbtb46",
+           "color_variable":"Genotype",
+           "shape_variable":"Cohort",
+           "hover_variables":["Sex"],
+           "PERMANOVA":"~Genotype",
+           "PERMANOVA_permutations":100000,
+           "PDF_height":4.5,
+           "PDF_width":6
+        },
+       "Cohort2_Zbtb46":{
+           "sample_subset":"Cohort2_Zbtb46",
+           "color_variable":"Genotype",
+           "shape_variable":"Cohort",
+           "hover_variables":["Sex"],
+           "PERMANOVA":"~Genotype",
+           "PERMANOVA_permutations":100000,
+           "PDF_height":4.5,
+           "PDF_width":6
         }
+   },
+   "taxonomy_barplots":{
+       "Cohort1_Rorc":{
+           "sample_subset":"Cohort1_Rorc",
+           "facet_variable":"Genotype",
+           "n_labelled_taxa":8,
+           "PDF_height":4.5,
+           "PDF_width":7
 
+       }
    }
 }
