@@ -219,6 +219,9 @@ rule list_plans:
         print("Taxonomy barplots:")
         for plan in config['taxonomy_barplots'].keys():
             print("\t" + plan)
+        print("Alpha diversity:")
+        for plan in config['alpha_diversity'].keys():
+            print("\t" + plan)
 
 def run_all_input(wildcards):
     d={}
@@ -226,6 +229,8 @@ def run_all_input(wildcards):
         d["PCoA_" + plan]="output/HTML/PCoA/" + plan + ".html"
     for plan in config['taxonomy_barplots'].keys():
         d["Taxonomy_" + plan]="output/HTML/TaxonomyBarplots/" + plan + ".html"
+    for plan in config['alpha_diversity'].keys():
+        d["Taxonomy_" + plan]="output/HTML/AlphaDiversity/" + plan + ".html"
     return d
 
 rule run_all:
