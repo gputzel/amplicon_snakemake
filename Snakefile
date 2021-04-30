@@ -305,7 +305,7 @@ def run_all_input(wildcards):
     for plan in config['taxonomy_barplots'].keys():
         d["Taxonomy_" + plan]="output/HTML/TaxonomyBarplots/" + plan + ".html"
     for plan in config['alpha_diversity'].keys():
-        d["Taxonomy_" + plan]="output/HTML/AlphaDiversity/" + plan + ".html"
+        d["AlphaDiversity_" + plan]="output/HTML/AlphaDiversity/" + plan + ".html"
     for plan in config['differential_abundance'].keys():
         d["DA_" + plan]="output/HTML/DifferentialAbundance/" + plan + ".html"
     return d
