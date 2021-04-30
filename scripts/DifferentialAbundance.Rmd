@@ -1,0 +1,104 @@
+---
+title: "DifferentialAbundance"
+output: 
+  flexdashboard::flex_dashboard
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(phyloseq)
+library(DESeq2)
+library(plotly)
+library(DT)
+library(pander)
+```
+
+```{r include=FALSE}
+plan_name <- snakemake@wildcards[['plan']]
+plan <- snakemake@config$differential_abundance[[plan_name]]
+
+prefilter_name <- plan$prefilter
+prefilter_string <- snakemake@config$prefilters[[prefilter_name]]$prefilter_function
+prefilter_description <- snakemake@config$prefilters[[prefilter_name]]$long_name
+design_string <- plan$design
+attribute <- plan$attribute
+group1_plus <- plan$group1_plus
+group2_minus <- plan$group2_minus
+```
+
+Info
+=====================================
+
+- Comparison: `r plan_name`
+- Design: `r design_string`
+- Comparison attribute: `r attribute`
+- **Positive log fold changes** indicate that expression is higher in **`r paste0(attribute, '=', group1_plus)`** than in **`r paste0(attribute, '=', group2_minus)`**
+- **Negative log fold changes** indicate that expression is higher in **`r paste0(attribute, '=', group2_minus)`** than in **`r paste0(attribute, '=', group1_plus)`**
+- OTU prefilter function (only OTUs passing filter are tested): ``r prefilter_name`` (`r prefilter_description`)
+- OTUs are considered significantly differentially abundant when the adjusted p value (`padj`, or equivalently, False Discovery Rate) is less than 0.1. 
+
+Results table
+=====================================
+
+```{r include=FALSE}
+res <- readRDS(snakemake@input[['res']])
+res %>%
+  filter(!is.na(padj)) %>%
+  filter(padj < 0.1) -> res.de
+
+res.de.up <- res.de %>%
+  filter(log2FoldChange > 0)
+
+res.de.down <- res.de %>%
+  filter(log2FoldChange < 0)
+```
+
+Differentially abundant OTUs.
+
+```{r echo=FALSE,results='asis'}
+cat(paste0("\n\nThese tables are saved as `XLSX/DifferentialAbundanceResults/",plan_name,".xlsx`"))
+```
+
+### Higher in `r group1_plus`
+
+```{r echo=FALSE}
+DT::datatable(res.de.up,rownames=F,height = '100%',extensions = c('Scroller'),
+   options = list( scrollY = 200,  scroller = TRUE,  dom = "Bfrtip"))
+```
+
+### Higher in `r group2_minus`
+
+```{r echo=FALSE}
+DT::datatable(res.de.down,rownames=F,height = '100%',extensions = c('Scroller'),
+   options = list( scrollY = 200,  scroller = TRUE,  dom = "Bfrtip"))
+```
+
+Plot
+=====================================
+
+```{r include=FALSE}
+g <- readRDS(snakemake@input[['ggplot']])
+```
+
+Differentially abundant OTUs.
+
+```{r echo=FALSE,results='asis'}
+cat(paste0("\n\nFigure saved as `figures/DifferentialAbundanceSinglePlot/",plan_name,".pdf`"))
+```
+
+```{r echo=FALSE,results='asis'}
+cat(paste0("\n\nPlots of individual OTUs: `figures/DifferentialAbundance/",plan_name,".zip`"))
+```
+
+```{r echo=FALSE}
+ggplotly(g)
+```
+
+<!--Include software version info-->
+
+```{r include=FALSE}
+absolute.path <- file.path(getwd(),'scripts','SoftwareInfo.Rmd')
+```
+
+```{r child=absolute.path}
+```

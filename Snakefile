@@ -252,6 +252,33 @@ rule differential_abundance_OTU_plots:
     script:
         "scripts/DifferentialAbundancePlots.R"
 
+rule differential_abundance_single_plot:
+    input:
+        unpack(differential_abundance_OTU_plots_input)
+    output:
+        rds="output/RData/DifferentialAbundanceSinglePlot/{plan}.rds"
+    script:
+        "scripts/DifferentialAbundanceSinglePlot.R"
+
+rule differential_abundance_single_plot_PDF:
+    input:
+        rds="output/RData/DifferentialAbundanceSinglePlot/{plan}.rds",
+        res="output/RData/DifferentialAbundanceResults/{plan}.rds"
+    output:
+        pdf="output/figures/DifferentialAbundanceSinglePlot/{plan}.pdf"
+    script:
+        "scripts/DifferentialAbundanceSinglePlotPDF.R"
+
+rule differential_abundance_HTML:
+    input:
+        Rmd="scripts/DifferentialAbundance.Rmd",
+        res="output/RData/DifferentialAbundanceResults/{plan}.rds",
+        ggplot="output/RData/DifferentialAbundanceSinglePlot/{plan}.rds"
+    output:
+        "output/HTML/DifferentialAbundance/{plan}.html"
+    script:
+        "scripts/DifferentialAbundance.Rmd"
+
 rule list_plans:
     run:
         print("PCoA plots:")
