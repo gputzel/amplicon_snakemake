@@ -1,9 +1,9 @@
 {
     "import_sample_data":{
-        "xlsx":"sample_data/MC-WZ-183.xlsx",
+        "xlsx":"sample_data/sample_data.xlsx",
         "columns_factor":{
-            "Genotype":["Rorc-wt","Rorc-KO","Zbtb46-wt","Zbtb46-KO"],
-            "Cohort":["Cohort1","Cohort2"]
+            "Genotype":["WT","KO"],
+            "Cage":["Cage A","Cage B","Cage WT","Cage KO"]
         },
         "transform_ps_sample_names":{
             "Get rid of date":{
@@ -18,92 +18,26 @@
         "transform_mapping_file_sample_names":{
         }
     },
-   "phyloseq_rds_file":"RData/phyloseq_R_object.rds",
+   "phyloseq_rds_file":"../RData/ps_RTX-090.rds",
    "sample_subsets":{
-    "all":"TRUE",
-    "Cohort1_Rorc":"Cohort == 'Cohort1' & Genotype %in% c('Rorc-wt','Rorc-KO')",
-    "Cohort2_Rorc":"Cohort == 'Cohort2' & Genotype %in% c('Rorc-wt','Rorc-KO')",
-    "Cohort1_Zbtb46":"Cohort == 'Cohort1' & Genotype %in% c('Zbtb46-wt','Zbtb46-KO')",
-    "Cohort2_Zbtb46":"Cohort == 'Cohort2' & Genotype %in% c('Zbtb46-wt','Zbtb46-KO')"
+    "all":"TRUE"
    },
    "min_reads":10000,
    "pcoa_plots":{
        "all_samples":{
            "sample_subset":"all",
            "color_variable":"Genotype",
-           "shape_variable":"Cohort",
+           "shape_variable":"Cage",
            "hover_variables":["Sex"],
-           "PERMANOVA":"~Cohort+Genotype",
-           "PERMANOVA_permutations":100000,
-           "PDF_height":4.5,
-           "PDF_width":6
-        },
-       "Cohort1_Rorc":{
-           "sample_subset":"Cohort1_Rorc",
-           "color_variable":"Genotype",
-           "shape_variable":"Cohort",
-           "hover_variables":["Sex"],
-           "PERMANOVA":"~Genotype",
-           "PERMANOVA_permutations":100000,
-           "PDF_height":4.5,
-           "PDF_width":6
-        },
-       "Cohort2_Rorc":{
-           "sample_subset":"Cohort2_Rorc",
-           "color_variable":"Genotype",
-           "shape_variable":"Cohort",
-           "hover_variables":["Sex"],
-           "PERMANOVA":"~Genotype",
-           "PERMANOVA_permutations":100000,
-           "PDF_height":4.5,
-           "PDF_width":6
-        },
-       "Cohort1_Zbtb46":{
-           "sample_subset":"Cohort1_Zbtb46",
-           "color_variable":"Genotype",
-           "shape_variable":"Cohort",
-           "hover_variables":["Sex"],
-           "PERMANOVA":"~Genotype",
-           "PERMANOVA_permutations":100000,
-           "PDF_height":4.5,
-           "PDF_width":6
-        },
-       "Cohort2_Zbtb46":{
-           "sample_subset":"Cohort2_Zbtb46",
-           "color_variable":"Genotype",
-           "shape_variable":"Cohort",
-           "hover_variables":["Sex"],
-           "PERMANOVA":"~Genotype",
+           "PERMANOVA":"~Cage+Genotype",
            "PERMANOVA_permutations":100000,
            "PDF_height":4.5,
            "PDF_width":6
         }
    },
    "taxonomy_barplots":{
-       "Cohort1_Rorc":{
-           "sample_subset":"Cohort1_Rorc",
-           "facet_variable":"Genotype",
-           "n_labelled_taxa":8,
-           "PDF_height":4.5,
-           "PDF_width":7
-       },
-       "Cohort2_Rorc":{
-           "sample_subset":"Cohort2_Rorc",
-           "facet_variable":"Genotype",
-           "n_labelled_taxa":8,
-           "PDF_height":4.5,
-           "PDF_width":7
-       },
-       "Cohort1_Zbtb46":{
-           "sample_subset":"Cohort1_Zbtb46",
-           "facet_variable":"Genotype",
-           "n_labelled_taxa":8,
-           "PDF_height":4.5,
-           "PDF_width":7
-
-       },
-       "Cohort2_Zbtb46":{
-           "sample_subset":"Cohort2_Zbtb46",
+       "all_samples":{
+           "sample_subset":"all",
            "facet_variable":"Genotype",
            "n_labelled_taxa":8,
            "PDF_height":4.5,
@@ -111,14 +45,8 @@
        }
    },
    "alpha_diversity":{
-       "Cohort1_Rorc":{
-           "sample_subset":"Cohort1_Rorc",
-           "x_variable":"Genotype",
-           "PDF_height":4.5,
-           "PDF_width":6
-       },
-       "Cohort2_Rorc":{
-           "sample_subset":"Cohort2_Rorc",
+       "all_samples":{
+           "sample_subset":"all",
            "x_variable":"Genotype",
            "PDF_height":4.5,
            "PDF_width":6
@@ -131,13 +59,21 @@
        }
    },
    "differential_abundance":{
-       "Rorc-KO_vs_Rorc-wt_within_Cohort1":{
-           "sample_subset":"Cohort1_Rorc",
+       "KO_vs_WT":{
+           "sample_subset":"all",
            "prefilter":"100_reads_20_percent",
            "design":"~Genotype",
            "attribute":"Genotype",
-           "group1_plus":"Rorc-KO",
-           "group2_minus":"Rorc-wt"
+           "group1_plus":"KO",
+           "group2_minus":"WT"
+       },
+       "KO_vs_WT_cage_covariate":{
+           "sample_subset":"all",
+           "prefilter":"100_reads_20_percent",
+           "design":"~Genotype+Cage",
+           "attribute":"Genotype",
+           "group1_plus":"KO",
+           "group2_minus":"WT"
        }
    }
 }
