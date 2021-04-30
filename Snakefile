@@ -205,7 +205,8 @@ rule alpha_diversity_HTML:
     input:
         Rmd="scripts/AlphaDiversity.Rmd",
         ggplot="output/RData/AlphaDiversityPlot/{plan}.rds",
-        df="output/RData/AlphaDiversity/{plan}.rds"
+        df="output/RData/AlphaDiversity/{plan}.rds",
+        pdf="output/figures/AlphaDiversity/{plan}.pdf"
     output:
         "output/HTML/AlphaDiversity/{plan}.html"
     script:
