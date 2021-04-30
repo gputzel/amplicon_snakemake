@@ -227,6 +227,14 @@ rule differential_abundance:
     script:
         "scripts/DifferentialAbundance.R"
 
+rule differential_abundance_xlsx:
+    input:
+        rds="output/RData/DifferentialAbundanceResults/{plan}.rds"
+    output:
+        xlsx="output/XLSX/DifferentialAbundanceResults/{plan}.xlsx"
+    script:
+        "scripts/DifferentialAbundanceXLSX.R"
+
 rule list_plans:
     run:
         print("PCoA plots:")
