@@ -235,6 +235,23 @@ rule differential_abundance_xlsx:
     script:
         "scripts/DifferentialAbundanceXLSX.R"
 
+def differential_abundance_OTU_plots_input(wildcards):
+    d={}
+    plan_name=wildcards['plan']
+    plan=config['differential_abundance'][plan_name]
+    subset=plan['sample_subset']
+    d['ps']="output/RData/ps_subsets_normalized/" + subset + ".rds"
+    d['res']="output/RData/DifferentialAbundanceResults/{plan}.rds"
+    return d
+
+rule differential_abundance_OTU_plots:
+    input:
+        unpack(differential_abundance_OTU_plots_input)
+    output:
+        zip="output/figures/DifferentialAbundance/{plan}.zip"
+    script:
+        "scripts/DifferentialAbundancePlots.R"
+
 rule list_plans:
     run:
         print("PCoA plots:")
