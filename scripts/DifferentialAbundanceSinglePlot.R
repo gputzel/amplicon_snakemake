@@ -29,8 +29,8 @@ g <- df.long %>%
   mutate(label=paste(OTU,Genus,sep=':')) %>%
   mutate(label=factor(label,levels=res.de$label)) %>%
   ggplot(aes_string('label','Abundance',color=attribute,OTU='OTU',Genus='Genus',Family='Family')) +
-    geom_boxplot() +
-    geom_point(aes_string(Sample='Sample'),position=position_jitterdodge()) +
+    geom_boxplot(positino=position_dodge2()) +
+    geom_point(aes_string(Sample='Sample'),position=position_dodge2()) +
     xlab("OTU") +
     ylab("Relative abundance") +
     theme_bw(14) +

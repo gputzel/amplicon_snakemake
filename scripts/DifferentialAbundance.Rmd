@@ -91,7 +91,8 @@ cat(paste0("\n\nPlots of individual OTUs: `figures/DifferentialAbundance/",plan_
 ```
 
 ```{r echo=FALSE}
-ggplotly(g)
+ggplotly(g) %>%
+  plotly::layout(boxmode = "group")
 ```
 
 <!--Include software version info-->
