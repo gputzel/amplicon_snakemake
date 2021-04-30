@@ -116,6 +116,28 @@
            "x_variable":"Genotype",
            "PDF_height":4.5,
            "PDF_width":6
+       },
+       "Cohort2_Rorc":{
+           "sample_subset":"Cohort2_Rorc",
+           "x_variable":"Genotype",
+           "PDF_height":4.5,
+           "PDF_width":6
+       }
+   },
+   "prefilters":{
+       "100_reads_20_percent":{
+           "long_name":"Keep OTUs having at least 100 reads in at least 20% of samples.",
+           "prefilter_function":"function(dds) dds[rowSums(counts(dds)>99) > 0.2*ncol(counts(dds)),]"
+       }
+   },
+   "differential_abundance":{
+       "Rorc-KO_vs_Rorc-wt_within_Cohort1":{
+           "sample_subset":"Cohort1_Rorc",
+           "prefilter":"100_reads_20_percent",
+           "design":"~Genotype",
+           "attribute":"Genotype",
+           "group1_plus":"Rorc-KO",
+           "group2_minus":"Rorc-wt"
        }
    }
 }

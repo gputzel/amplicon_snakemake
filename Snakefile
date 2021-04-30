@@ -211,6 +211,22 @@ rule alpha_diversity_HTML:
     script:
         "scripts/AlphaDiversity.Rmd"
 
+def differential_abundance_input(wildcards):
+    d={}
+    plan_name=wildcards['plan']
+    plan=config['differential_abundance'][plan_name]
+    subset=plan['sample_subset']
+    d['rds']="output/RData/ps_subsets/" + subset + ".rds"
+    return d
+
+rule differential_abundance:
+    input:
+        unpack(differential_abundance_input)
+    output:
+        rds="output/RData/DifferentialAbundanceResults/{plan}.rds"
+    script:
+        "scripts/DifferentialAbundance.R"
+
 rule list_plans:
     run:
         print("PCoA plots:")
@@ -225,6 +241,7 @@ rule list_plans:
 
 def run_all_input(wildcards):
     d={}
+    d['SampleInfo']='output/HTML/SampleInfo.html'
     for plan in config['pcoa_plots'].keys():
         d["PCoA_" + plan]="output/HTML/PCoA/" + plan + ".html"
     for plan in config['taxonomy_barplots'].keys():
