@@ -205,7 +205,8 @@ rule alpha_diversity_HTML:
     input:
         Rmd="scripts/AlphaDiversity.Rmd",
         ggplot="output/RData/AlphaDiversityPlot/{plan}.rds",
-        df="output/RData/AlphaDiversity/{plan}.rds"
+        df="output/RData/AlphaDiversity/{plan}.rds",
+        pdf="output/figures/AlphaDiversity/{plan}.pdf"
     output:
         "output/HTML/AlphaDiversity/{plan}.html"
     script:
@@ -275,7 +276,8 @@ rule differential_abundance_HTML:
         res="output/RData/DifferentialAbundanceResults/{plan}.rds",
         ggplot="output/RData/DifferentialAbundanceSinglePlot/{plan}.rds",
         pdf="output/figures/DifferentialAbundanceSinglePlot/{plan}.pdf",
-        zip="output/figures/DifferentialAbundance/{plan}.zip"
+        zip="output/figures/DifferentialAbundance/{plan}.zip",
+        xlsx="output/XLSX/DifferentialAbundanceResults/{plan}.xlsx"
     output:
         "output/HTML/DifferentialAbundance/{plan}.html"
     script:
@@ -304,7 +306,7 @@ def run_all_input(wildcards):
     for plan in config['taxonomy_barplots'].keys():
         d["Taxonomy_" + plan]="output/HTML/TaxonomyBarplots/" + plan + ".html"
     for plan in config['alpha_diversity'].keys():
-        d["Taxonomy_" + plan]="output/HTML/AlphaDiversity/" + plan + ".html"
+        d["AlphaDiversity_" + plan]="output/HTML/AlphaDiversity/" + plan + ".html"
     for plan in config['differential_abundance'].keys():
         d["DA_" + plan]="output/HTML/DifferentialAbundance/" + plan + ".html"
     return d

@@ -62,15 +62,31 @@ cat(paste0("\n\nThese tables are saved as `XLSX/DifferentialAbundanceResults/",p
 ### Higher in `r group1_plus`
 
 ```{r echo=FALSE}
-DT::datatable(res.de.up,rownames=F,height = '100%',extensions = c('Scroller'),
-   options = list( scrollY = 200,  scroller = TRUE,  dom = "Bfrtip"))
+if(nrow(res.de.up)>0){
+  DT::datatable(res.de.up,rownames=F,height = '100%',extensions = c('Scroller'),
+     options = list( scrollY = 200,  scroller = TRUE,  dom = "Bfrtip"))
+}
+```
+
+```{r echo=FALSE,results='asis'}
+if(nrow(res.de.up)==0){
+  cat(paste0("\n\nNo significant results."))
+}
 ```
 
 ### Higher in `r group2_minus`
 
 ```{r echo=FALSE}
-DT::datatable(res.de.down,rownames=F,height = '100%',extensions = c('Scroller'),
-   options = list( scrollY = 200,  scroller = TRUE,  dom = "Bfrtip"))
+if(nrow(res.de.down)>0){
+  DT::datatable(res.de.down,rownames=F,height = '100%',extensions = c('Scroller'),
+     options = list( scrollY = 200,  scroller = TRUE,  dom = "Bfrtip"))
+}
+```
+
+```{r echo=FALSE,results='asis'}
+if(nrow(res.de.down)==0){
+  cat(paste0("\n\nNo significant results."))
+}
 ```
 
 Plot
@@ -91,8 +107,16 @@ cat(paste0("\n\nPlots of individual OTUs: `figures/DifferentialAbundance/",plan_
 ```
 
 ```{r echo=FALSE}
-ggplotly(g) %>%
-  plotly::layout(boxmode = "group")
+if(nrow(res.de) > 0){
+  ggplotly(g) %>%
+    plotly::layout(boxmode = "group")
+}
+```
+
+```{r echo=FALSE,results='asis'}
+if(nrow(res.de)==0){
+  cat(paste0("\n\nNo significant results."))
+}
 ```
 
 <!--Include software version info-->
