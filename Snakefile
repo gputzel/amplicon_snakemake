@@ -276,7 +276,8 @@ rule differential_abundance_HTML:
         res="output/RData/DifferentialAbundanceResults/{plan}.rds",
         ggplot="output/RData/DifferentialAbundanceSinglePlot/{plan}.rds",
         pdf="output/figures/DifferentialAbundanceSinglePlot/{plan}.pdf",
-        zip="output/figures/DifferentialAbundance/{plan}.zip"
+        zip="output/figures/DifferentialAbundance/{plan}.zip",
+        xlsx="output/XLSX/DifferentialAbundanceResults/{plan}.xlsx"
     output:
         "output/HTML/DifferentialAbundance/{plan}.html"
     script:
